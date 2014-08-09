@@ -1,0 +1,13 @@
+*.egg-info
+*.egg-link
+*.py[co]
+/.cache
+/.env
+/.installed.cfg
+/.mr.developer.cfg
+/.venv*
+/bin/
+/env
+/venv*
+/result
+/result-*

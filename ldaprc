@@ -1,0 +1,4 @@
+# disable certificate verification for the self-signed slapd cert
+TLS_REQCERT ALLOW
+
+URI ldapi://nonexistent ldapi://ldapi
