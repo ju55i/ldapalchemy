@@ -113,10 +113,10 @@ kill-remaining-slapd:
 # buildout for pas.plugins.ldapalchemy tests with plone
 
 bin/buildout: .venv27
-	./venv27/bin/buildout bootstrap -o
+	./venv27/bin/buildout bootstrap
 
 bin/test: bin/buildout buildout.cfg
-	./bin/buildout -v -o
+	./bin/buildout -v 
 	touch bin/test
 
 test-plone: bin/test

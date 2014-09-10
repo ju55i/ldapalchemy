@@ -1,9 +1,10 @@
 FROM		centos:centos7
 MAINTAINER 	Jussi Talaskivi <jussi.talaskivi@jyu.fi>
 
-RUN		yum -y install http://hydra.nixos.org/build/10272854/download/3/nix-1.7-2.fc19.x86_64.rpm
-RUN		yum -y install git make python-setuptools openldap-servers openldap-devel; true
+RUN		yum -y install git make python-setuptools openldap-servers openldap-devel openldap-clients openssl-devel tar patch which zlib-devel python-devel bzip2 gcc-c++ libjpeg-devel libxslt-devel readline-devel; true
 RUN		easy_install virtualenv
-RUN		git clone https://github.com/chaoflow/ldapalchemy.git
+ADD		. /ldapalchemy
+ADD		etc/openldap /etc/openldap
+ADD		ldaprc /etc/openldap/ldap.conf
 WORKDIR		/ldapalchemy
 RUN		make
