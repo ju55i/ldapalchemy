@@ -37,12 +37,29 @@ all: tests test-noplone
 	touch .env
 
 
-
 # Virtualenvs are used to install the packages in development
 # mode. All python dependencies are taken from the "system" python,
 # i.e. the python the virtualenvs are installed in.
 
-.venv27: .env
+.venv27: venv27-nonix
+
+venv27-nonix:
+	virtualenv-2.7 venv27
+	./venv27/bin/pip install grako zc.buildout==1.7.1
+	./venv27/bin/pip install \
+          click \
+          colorama \
+          ipdb \
+          plumbum \
+          py \
+          pytest \
+          pytest-cache \
+          pytest-pep8 \
+          pytest-flakes
+	./venv27/bin/python setup.py develop
+	touch .venv27
+
+venv27-nix: .env
 	virtualenv2.7 --system-site-packages venv27
 	./venv27/bin/python ../grako/setup.py develop
 	./venv27/bin/python setup.py develop
@@ -58,6 +75,8 @@ all: tests test-noplone
 # 	sed -e 's,#!.*,#!./venv34/bin/python,' <./env/bin/py.test-3.4 >./venv34/bin/py.test
 # 	chmod +x ./venv34/bin/py.test
 # 	touch .venv34
+
+
 
 
 
