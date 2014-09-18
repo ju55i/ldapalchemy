@@ -5,5 +5,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import ctypes
 
-libldap = ctypes.CDLL('libldap.so')
+try:
+    libldap = ctypes.CDLL('libldap.so')
+except OSError:
+    libldap = ctypes.CDLL('libldap.dylib')
 libldap.ldap_err2string.restype = ctypes.c_char_p
