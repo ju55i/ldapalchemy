@@ -2,6 +2,7 @@ from plumbum import local
 
 import logging
 import os
+import signal
 import shutil
 import tempfile
 import time
@@ -82,7 +83,9 @@ class Slapd(object):
             '-h', ' '.join([self.ldapi_uri, self.ldap_uri, self.ldaps_uri])
         ].popen(args=self.loglevel,
                 # plumbum does not pay attention to cwd
-                cwd=self.testdir)
+                cwd=self.testdir,
+                # slapd will spawn children and can only be killed as group
+                preexec_fn=os.setsid)
 
         with open(self.pidfile, 'wb') as f:
             f.write(str(self.proc.pid))
@@ -109,7 +112,7 @@ class Slapd(object):
     def __exit__(self, exc_type=None, exc_value=None, traceback=None):
         os.chdir(self.startdir)
         if self.proc:
-            self.proc.kill()
+            os.killpg(os.getpgid(self.proc.pid), signal.SIGTERM)
             self.proc.wait()
         if os.path.exists(self.pidfile):
             os.unlink(self.pidfile)
