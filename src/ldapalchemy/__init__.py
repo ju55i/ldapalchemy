@@ -10,4 +10,7 @@ __version__ = '0.20140726'
 import ctypes as ct
 
 
-libldap = ct.CDLL('libldap.so')
+try:
+    libldap = ct.CDLL('libldap.so')
+except OSError:
+    libldap = ct.CDLL('libldap.dylib')
